@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 01:17:13
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 04:40:27
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 06:18:20
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -90,7 +90,7 @@ state.game = {
 
 	rate = 200,
 	keypressed = function (self, key, rep)
-		print(self.name, key, rep)
+		-- print(self.name, key, rep)
 		state.stdkeypressed(self, key, rep)
 		-- if key == 'end' then
 		-- 	self.level:add()
@@ -120,7 +120,38 @@ state.game = {
 			y = 48,
 			radius = 50
 		})
-		self.pnj = {}
+
+		self.pnj = pnj.new()
+		self.pnj:add({
+			x = 300,
+			y = 100,
+			radius = 10,
+			rate = 2,
+
+			position = 1,
+			path = {
+				{x = 300, y = 100},
+				{x = 300, y = 200}
+			},
+
+			update = function (self, dt)
+				local destination = ((self.position) % #self.path) + 1
+
+				local x_coef = (self.path[destination].x - self.path[self.position].x) / self.rate
+				local y_coef = (self.path[destination].y - self.path[self.position].y) / self.rate
+
+				self.x = self.x + dt * x_coef
+				self.y = self.y + dt * y_coef
+
+				if CircleinCircle(self, {
+					x = self.path[destination].x,
+					y = self.path[destination].y,
+					radius = 10
+				}) then
+					self.position = destination
+				end
+			end
+		})
 	end,
 	update = function (self, dt)
 		local movement = { x = 0, y = 0 }
@@ -134,11 +165,18 @@ state.game = {
 		if love.keyboard.isDown('right') then
 			movement.x = movement.x - dt * self.rate end
 
-		print(self.level:collides(self.player))
 		self.level:move(movement.x, movement.y)
+		self.pnj:move(movement.x, movement.y)
+		if self.level:collides(self.player) then
+			self.level:move(-movement.x, -movement.y)
+			self.pnj:move(-movement.x, -movement.y)
+		end
+
+		self.pnj:update(dt)
 	end,
 	draw = function (self)
 		self.player:draw()
+		self.pnj:draw()
 		self.level:draw()
 	end,
 	quit = function (self) print(self.name, 'quit') end

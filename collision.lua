@@ -6,14 +6,14 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 04:08:29
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 05:06:49
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 05:12:05
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
 --      .+ydddddddddhs/.
 --          .-::::-`
 
-local grain = 20
+local grain = 100
 
 function CircleinCircle(circle1, circle2)
 	return (circle2.x - circle1.x)^2 + (circle2.y - circle1.y)^2 <= (circle2.radius + circle1.radius)^2
