@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 01:00:10
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 06:37:42
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 09:24:44
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -26,44 +26,63 @@ function love.debug(...)
 end
 
 function love.load()
-	-- vertices = {
-	-- 	{100, 100},
-	-- 	{200, 100},
-	-- 	{100, 200}
-	-- }
+	vertices = {
+		{300, 300},
+		{400, 300},
+		{300, 400}
+	}
 
-	fonts = {}
-	fonts.regular = love.graphics.newFont('Raleway/Regular.ttf', 24)
-	love.graphics.setFont(fonts.regular)
-	state.setcurrent('menu')
+	-- fonts = {}
+	-- fonts.regular = love.graphics.newFont('Raleway/Regular.ttf', 24)
+	-- love.graphics.setFont(fonts.regular)
+	-- state.setcurrent('menu')
 end
 
 function love.keypressed(key, rep)
-	state[state.current]:keypressed(key, rep)
+	-- state[state.current]:keypressed(key, rep)
 end
 
+rotation = 0
+
 function love.update(dt)
-	-- local x, y = 100, 100
-	-- dist = (x*x) + (y*y);
-	-- angle = math.atan(math.abs(x) / math.abs(y));
-	-- angle = angle + dt;
+	-- state[state.current]:update(dt)
+	rotation = rotation + dt
 
-	-- for i,v in ipairs(vertices) do
-	-- 	v[1] = math.sin(angle*math.pi/180);
-	-- 	v[2] = math.cos(angle*math.pi/180);
-	-- end
-
-	state[state.current]:update(dt)
+	caca = {}
+	for i,v in ipairs(vertices) do
+		caca[i] = {}
+		local x, y = v[1] - vertices[1][1], v[2] - vertices[1][2]
+		table.insert(caca[i], x * math.cos(rotation) - y * math.sin(rotation))
+		table.insert(caca[i], y * math.cos(rotation) +  x * math.sin(rotation))
+	end
 end
 
 function love.draw()
-	state[state.current]:draw()
+	-- state[state.current]:draw()
 
-	-- local _v = {}
-	-- for i,v in ipairs(vertices) do
-	-- 	for i, k in ipairs(v) do
-	-- 		table.insert(_v, k)
-	-- 	end
-	-- end
-	-- love.graphics.polygon("line", unpack(_v))
+	local _v = {}
+	for i,v in ipairs(vertices) do
+		for i, k in ipairs(v) do
+			table.insert(_v, k)
+		end
+	end
+	local _c = {}
+	for i,v in ipairs(caca) do
+		for i, k in ipairs(v) do
+			table.insert(_c, k)
+		end
+	end
+	love.graphics.push()
+	love.graphics.translate(300, 300)
+	love.graphics.rotate(rotation)
+	love.graphics.translate(-300, -300)
+	love.graphics.polygon("line", unpack(_v))
+	love.graphics.pop()
+
+	love.graphics.print(rotation)
+	love.graphics.print(inspect(vertices), 0, 24)
+	love.graphics.print(inspect(caca), 0, 84)
+	love.graphics.circle('line', 300, 300, 60)
+	love.graphics.polygon("line", unpack(_v))
+	love.graphics.polygon("line", unpack(_c))
 end
