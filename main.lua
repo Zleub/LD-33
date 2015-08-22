@@ -6,15 +6,36 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 01:00:10
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 01:02:08
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 02:33:29
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
 --      .+ydddddddddhs/.
 --          .-::::-`
 
-function love.load() end
+inspect = require 'inspect'
+color = require 'color'
+state = require 'state'
 
-function love.update(dt) end
+function love.debug(...)
+	print(inspect({...}))
+end
 
-function love.draw() end
+function love.load()
+	fonts = {}
+	fonts.regular = love.graphics.newFont('Raleway/Regular.ttf', 24)
+	love.graphics.setFont(fonts.regular)
+	state.setcurrent('menu')
+end
+
+function love.keypressed(key, rep)
+	state[state.current]:keypressed(key, rep)
+end
+
+function love.update(dt)
+	state[state.current]:update(dt)
+end
+
+function love.draw()
+	state[state.current]:draw()
+end
