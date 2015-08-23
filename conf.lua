@@ -3,7 +3,7 @@ function love.conf(t)
     t.version = "0.9.2"                -- The LÖVE version this game was made for (string)
     t.console = false                  -- Attach a console (boolean, Windows only)
 
-    t.window.title = "LD 33"        -- The window title (string)
+    t.window.title = "Löve2D - LD 33 : You are the Monster"        -- The window title (string)
     t.window.icon = nil                -- Filepath to an image to use as the window's icon (string)
     t.window.width = 640               -- The window width (number)
     t.window.height = 480              -- The window height (number)

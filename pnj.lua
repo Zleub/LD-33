@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 03:49:20
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 06:07:44
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 04:23:37
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -22,15 +22,25 @@ pnj.new = function ()
 	t.add = function (self, params)
 		if type(params) ~= 'table'then print('pnj.add need a table') love.event.quit() end
 
-		local t = copy(params)
-		t.draw = function (self)
-			love.graphics.circle("line", self.x, self.y, self.radius)
-		end
-		return table.insert(self.queue, t)
+		return table.insert(self.queue, copy(params))
 	end
 	t.update = function (self, dt)
 		for i,v in ipairs(self.queue) do
 			v:update(dt)
+		end
+	end
+	t.collides = function (self, entity)
+		for i,v in ipairs(self.queue) do
+			if v.rotated_vertices then
+				local shape = love.physics.newPolygonShape(unpack(v.rotated_vertices))
+
+				if shape:testPoint(0,0, 0, entity.x, entity.y) then
+					v.caca = 'caca'
+				else
+					v.caca = ''
+				end
+
+			end
 		end
 	end
 	t.move = function (self, x, y)

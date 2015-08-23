@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 04:08:29
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 05:12:05
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 01:48:58
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -59,4 +59,22 @@ function RectangleinCircle(rectangle, circle)
 		y = y + y_coef
 	end
 	return false
+end
+
+function SameSide(p1,p2, a,b)
+	local vecA = Vector2.new(a, b)
+	local vecB = Vector2.new(a, p1)
+	local vecC = Vector2.new(a, p2)
+
+	local cp1 = Vector2.crossproduct(vecA, vecB)
+	local cp2 = Vector2.crossproduct(vecA, vecC)
+
+	if Vector2.dotproduct(cp1, cp2) >= 0 then return true
+	else return false end
+end
+
+function PointinTriangle(p, a, b, c)
+	if SameSide(p,a, b,c) and SameSide(p,b, a,c)
+		and SameSide(p,c, a,b) then return true
+	else return false end
 end

@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 01:17:13
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-22 06:18:20
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 03:38:14
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -53,7 +53,7 @@ state.menu = {
 		self.count = 0
 	end,
 	update = function (self, dt)
-		print(self.name, 'update')
+		-- print(self.name, 'update')
 	end,
 	print = function (text, width, height)
 		if not width and not height then
@@ -85,101 +85,6 @@ state.menu = {
 	quit = function (self) print(self.name, 'quit') end
 }
 
-state.game = {
-	name = "game",
-
-	rate = 200,
-	keypressed = function (self, key, rep)
-		-- print(self.name, key, rep)
-		state.stdkeypressed(self, key, rep)
-		-- if key == 'end' then
-		-- 	self.level:add()
-		-- end
-	end,
-
-	start = function (self)
-		print(self.name, 'start')
-		self.player = {
-			x = love.window.getWidth() / 2,
-			y = love.window.getHeight() / 2,
-			radius = 10,
-			update = function (self, dt, rate) end,
-			draw = function (self)
-				love.graphics.circle('line', self.x, self.y, self.radius)
-			end
-		}
-		self.level = level.new()
-		self.level:add({
-			x = 42,
-			y = 21,
-			width = 100,
-			height = 100
-		})
-		self.level:add({
-			x = 64,
-			y = 48,
-			radius = 50
-		})
-
-		self.pnj = pnj.new()
-		self.pnj:add({
-			x = 300,
-			y = 100,
-			radius = 10,
-			rate = 2,
-
-			position = 1,
-			path = {
-				{x = 300, y = 100},
-				{x = 300, y = 200}
-			},
-
-			update = function (self, dt)
-				local destination = ((self.position) % #self.path) + 1
-
-				local x_coef = (self.path[destination].x - self.path[self.position].x) / self.rate
-				local y_coef = (self.path[destination].y - self.path[self.position].y) / self.rate
-
-				self.x = self.x + dt * x_coef
-				self.y = self.y + dt * y_coef
-
-				if CircleinCircle(self, {
-					x = self.path[destination].x,
-					y = self.path[destination].y,
-					radius = 10
-				}) then
-					self.position = destination
-				end
-			end
-		})
-	end,
-	update = function (self, dt)
-		local movement = { x = 0, y = 0 }
-
-		if love.keyboard.isDown('up') then
-			movement.y = movement.y + dt * self.rate end
-		if love.keyboard.isDown('down') then
-			movement.y = movement.y - dt * self.rate end
-		if love.keyboard.isDown('left') then
-			movement.x = movement.x + dt * self.rate end
-		if love.keyboard.isDown('right') then
-			movement.x = movement.x - dt * self.rate end
-
-		self.level:move(movement.x, movement.y)
-		self.pnj:move(movement.x, movement.y)
-		if self.level:collides(self.player) then
-			self.level:move(-movement.x, -movement.y)
-			self.pnj:move(-movement.x, -movement.y)
-		end
-
-		self.pnj:update(dt)
-	end,
-	draw = function (self)
-		self.player:draw()
-		self.pnj:draw()
-		self.level:draw()
-	end,
-	quit = function (self) print(self.name, 'quit') end
-}
+state.game = require 'state_game'
 
 return state
