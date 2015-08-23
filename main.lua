@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 01:00:10
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 05:20:54
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 08:05:58
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -45,8 +45,14 @@ function love.debug(...)
 end
 
 function love.load()
+	tmp_image = love.graphics.newImage('const.jpg')
+	tmp_image:setFilter('nearest')
+
 	player_image = love.graphics.newImage('Entity.png')
 	player_image:setFilter('nearest')
+	guard_image = love.graphics.newImage('Guard.png')
+	guard_image:setFilter('nearest')
+	guard_quad = quadlist.new({image = guard_image, width = 32, height = 32})
 
 	floor_image = love.graphics.newImage('const.jpg')
 	floor_image:setFilter('nearest')

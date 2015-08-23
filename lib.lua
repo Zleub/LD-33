@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 05:48:20
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 05:23:17
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 08:17:29
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -49,17 +49,51 @@ function makegrass(width, height)
 	local canvas = love.graphics.newCanvas(width, height)
 	love.graphics.setCanvas(canvas)
 		canvas:clear()
-		-- love.graphics.setBlendMode('alpha')
 		local i, j = 0, 0
 		while i < width do
 			j = 0
 			while j < height do
 				love.graphics.setColor(0, love.math.random(128, 200), 0, 255)
-				love.graphics.rectangle('fill', i, j, 8, 8)
-				j = j + 8
+				love.graphics.rectangle('fill', i, j, 4, 4)
+				j = j + 4
+			end
+			i = i + 4
+		end
+	love.graphics.setColor({255, 255, 255, 255})
+
+	love.graphics.setCanvas()
+	return canvas
+end
+
+local brown = {
+	{244, 164,  96},
+	{219, 147,  86},
+	{195, 131,  76},
+	{170, 114,  67},
+	{146,  98,  57},
+	{122,  82,  48},
+	{ 97,  65,  38},
+	{ 73,  49,  28},
+	{ 48,  32,  19},
+	{ 24,  16,   9}
+}
+
+function makepath(width, height)
+	local canvas = love.graphics.newCanvas(width, height)
+	love.graphics.setCanvas(canvas)
+		canvas:clear()
+		local i =  0
+		while i < width do
+			j = 2.5 * (width / 16) - love.math.random(4, 32)
+			while j < 3 * (width / 16) do
+				local len = love.math.random(4, 32)
+				love.graphics.setColor(brown[love.math.random(1, #brown)])
+				love.graphics.rectangle('fill', i, j, 8, len)
+				j = j + len
 			end
 			i = i + 8
 		end
+	love.graphics.setColor({255, 255, 255, 255})
 	love.graphics.setCanvas()
 	return canvas
 end

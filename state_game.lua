@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-23 01:08:14
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 05:23:05
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 08:23:48
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -53,28 +53,44 @@ local state_start = {
 		}
 		self.level = level.new()
 
-		-- self.level:add({
-		-- 	x = 0,
-		-- 	y = 0,
-		-- 	batch = setupSpriteBatch(love.graphics.newSpriteBatch(floor_image, 200), floor_image, 0.1)
-		-- })
 		self.level:add({
 			x = 0,
 			y = 0,
-			canvas = makegrass(love.window.getWidth() * 2, love.window.getHeight() * 2)
+			canvas = makegrass(love.window.getWidth() * 2, love.window.getHeight() * 2),
+			draw = function (self)
+				love.graphics.draw(self.canvas, self.x, self.y)
+			end
 		})
+		self.level:add({
+			x = 0,
+			y = 0,
+			canvas = makepath(love.window.getWidth() * 2, love.window.getHeight() * 2),
+			draw = function (self)
+				love.graphics.draw(self.canvas, self.x, self.y)
+			end
+		})
+		-- self.level:add({
+		-- 	x = 0,
+		-- 	y = 0,
+		-- 	width = 100,
+		-- 	height = 0.5 * (100 / 16),
+		-- 	canvas = makepath(100, 100),
+		-- 	draw = function (self)
+		-- 		love.graphics.draw(self.canvas, self.x, self.y)
+		-- 	end
+		-- })
 
-		self.level:add({
-			x = 42,
-			y = 21,
-			width = 100,
-			height = 100
-		})
-		self.level:add({
-			x = 64,
-			y = 48,
-			radius = 50
-		})
+		-- self.level:add({ -- RECTANGLE COLLIDER
+		-- 	x = 42,
+		-- 	y = 21,
+		-- 	width = 100,
+		-- 	height = 100
+		-- })
+		-- self.level:add({
+		-- 	x = 64,
+		-- 	y = 48,
+		-- 	radius = 50
+		-- })
 
 		self.pnj = pnj.new()
 		self.pnj:add(dofile('stdpnj.lua'))
@@ -116,9 +132,9 @@ local state_start = {
 	draw = function (self)
 		self.level:draw()
 		self.player:draw()
-		love.graphics.setColor({0, 0, 0, 255})
+		-- love.graphics.setColor({0, 0, 0, 255})
 		self.pnj:draw()
-		love.graphics.setColor({255, 255, 255, 255})
+		-- love.graphics.setColor({255, 255, 255, 255})
 	end,
 	quit = function (self) print(self.name, 'quit') end
 }
