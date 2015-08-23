@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 01:00:10
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 08:05:58
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 11:23:31
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -102,6 +102,8 @@ shader = love.graphics.newShader[[
 ]]
 
 function love.draw()
+	-- love.graphics.scale(0.5, 0.5)
+
 	-- love.graphics.rectangle("fill", 0, 0, love.window.getDimensions())
 	-- love.graphics.setShader(shader)
 	state[state.current]:draw()

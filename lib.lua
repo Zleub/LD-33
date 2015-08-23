@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-22 05:48:20
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 08:17:29
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 11:45:19
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -65,18 +65,15 @@ function makegrass(width, height)
 	return canvas
 end
 
-local brown = {
-	{244, 164,  96},
-	{219, 147,  86},
-	{195, 131,  76},
-	{170, 114,  67},
-	{146,  98,  57},
-	{122,  82,  48},
-	{ 97,  65,  38},
-	{ 73,  49,  28},
-	{ 48,  32,  19},
-	{ 24,  16,   9}
-}
+local grey = {
+	{211,211,211},
+	{189,189,189},
+	{168,168,168},
+	{147,147,147},
+	{126,126,126},
+	{105,105,105},
+	{0, 0, 0}
+	}
 
 function makepath(width, height)
 	local canvas = love.graphics.newCanvas(width, height)
@@ -86,12 +83,61 @@ function makepath(width, height)
 		while i < width do
 			j = 2.5 * (width / 16) - love.math.random(4, 32)
 			while j < 3 * (width / 16) do
-				local len = love.math.random(4, 32)
-				love.graphics.setColor(brown[love.math.random(1, #brown)])
+				local index = love.math.random(1, #grey)
+				local len
+				if index == #grey then
+					len = 8
+				else
+					len = love.math.random(4, 32)
+				end
+				love.graphics.setColor(grey[index])
 				love.graphics.rectangle('fill', i, j, 8, len)
 				j = j + len
 			end
 			i = i + 8
+		end
+	love.graphics.setColor({255, 255, 255, 255})
+	love.graphics.setCanvas()
+	return canvas
+end
+
+local green = {
+	{0,178,0},
+	{0,153,0},
+	{0,127,0},
+	{0,102,0},
+	{0,76,0}
+}
+
+function maketree(width, height)
+	local canvas = love.graphics.newCanvas(width, height)
+	local radius = width / 4
+
+	love.graphics.setCanvas(canvas)
+	canvas:clear()
+	nbr = #green
+		while nbr > 0 do
+			local count = nbr * 10
+
+			love.graphics.setColor(green[nbr])
+			while count > 0 do
+				local x = love.math.random(0, 2)
+				local y = love.math.random(0, 2)
+				local tmp_x
+
+				if x == 0 then tmp_x = -radius
+					elseif x == 1 then tmp_x = radius
+					elseif x == 2 then tmp_x = 0 end
+				local tmp_y
+				if y == 0 then tmp_y = -radius
+					elseif y == 1 then tmp_y = radius
+					elseif y == 2 then tmp_y = 0 end
+				love.graphics.circle('fill', width / 2 + tmp_x, height / 2 + tmp_y, radius)
+				count = count - 1
+			end
+			radius = radius / 2
+
+			nbr = nbr - 1
 		end
 	love.graphics.setColor({255, 255, 255, 255})
 	love.graphics.setCanvas()

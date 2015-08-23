@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-08-23 01:08:14
--- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 08:23:48
+-- :ddddddddddhyyddddddddddd: Modified: 2015-08-23 11:39:56
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -69,6 +69,24 @@ local state_start = {
 				love.graphics.draw(self.canvas, self.x, self.y)
 			end
 		})
+
+		for i=1,1350,love.math.random(50, 100) do
+			local size = love.math.random(100, 150)
+
+			self.level:add({
+			x = -100 + i,
+			y = love.math.random(-125, -75),
+			canvas = maketree(size, size),
+			draw = function (self)
+				-- love.graphics.setShader(tree_shader)
+				love.graphics.draw(self.canvas, self.x, self.y)
+				-- love.graphics.setShader()
+				-- tree_shader:send('canvas', self.canvas)
+			end
+		})
+
+		end
+
 		-- self.level:add({
 		-- 	x = 0,
 		-- 	y = 0,
@@ -93,13 +111,13 @@ local state_start = {
 		-- })
 
 		self.pnj = pnj.new()
-		self.pnj:add(dofile('stdpnj.lua'))
-		local p = dofile('stdpnj.lua')
-		p.x = 15
-		p.y = 0
-		p.path[1].x, p.path[1].y = 15, 0
-		love.debug(p)
-		self.pnj:add(p)
+		-- self.pnj:add(dofile('stdpnj.lua'))
+		-- local p = dofile('stdpnj.lua')
+		-- p.x = 15
+		-- p.y = 0
+		-- p.path[1].x, p.path[1].y = 15, 0
+		-- love.debug(p)
+		-- self.pnj:add(p)
 	end,
 	update = function (self, dt)
 		local movement = { x = 0, y = 0 }
